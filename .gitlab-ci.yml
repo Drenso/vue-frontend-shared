@@ -8,6 +8,7 @@ publish-pkg:
     - echo "username=${NPM_USER}" >> .npmrc
     - echo "_password=$(echo -n ${NPM_PASS} | base64)" >> .npmrc
     - echo "email=${NPM_EMAIL}" >> .npmrc
+    - echo "always-auth=true" >> .npmrc
     - yarn version --new-version ${CI_COMMIT_TAG} --no-git-tag-version
     - yarn publish
   after_script:
