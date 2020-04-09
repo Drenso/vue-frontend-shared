@@ -1,0 +1,12 @@
+{
+  "name": "@drenso/frontend-shared",
+  "version": "0.0.2",
+  "description": "Shared code that can be used over our frontend implementations",
+  "author": "Drenso <hallo@drenso.nl>",
+  "contributors": [
+    "Bob van de Vijver <bob@drenso.nl>",
+    "Tobias Feijten <tobias@drenso.nl>"
+  ],
+  "license": "UNLICENSED",
+  "private": false
+}
