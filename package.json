@@ -1,6 +1,6 @@
 {
-  "name": "@drenso/frontend-shared",
-  "description": "Shared code that can be used over our frontend implementations",
+  "name": "@drenso/vue-frontend-shared",
+  "description": "Shared code that can be used over our Vue frontend implementations",
   "author": "Drenso <hallo@drenso.nl>",
   "contributors": [
     "Bob van de Vijver <bob@drenso.nl>",
@@ -8,5 +8,54 @@
   ],
   "license": "UNLICENSED",
   "private": false,
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "tsc": "tsc",
+    "build": "yarn clean && yarn tsc",
+    "prepublishOnly": "yarn build"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0",
+    "tslint": "^6.1",
+    "typescript": "^3.8",
+    "//": "Peer dependencies",
+    "@types/big.js": "^4.0",
+    "@types/jquery": "^3.3",
+    "@types/select2": "^4.0",
+    "@types/uuid": "^7.0",
+    "axios": "^0.19",
+    "big.js": "^5.2",
+    "bootstrap-vue": "^2.11",
+    "jquery": "^3.5",
+    "moment": "^2.24",
+    "select2": "^4.0",
+    "uuid": "^7.0",
+    "vee-validate": "^3.2",
+    "vue": "^2.6",
+    "vue-class-component": "^7.2"
+  },
+  "peerDependencies": {
+    "@types/big.js": "^4.0",
+    "@types/jquery": "^3.3",
+    "@types/select2": "^4.0",
+    "@types/uuid": "^7.0",
+    "axios": "^0.19",
+    "big.js": "^5.2",
+    "bootstrap-vue": "^2.11",
+    "jquery": "^3.5",
+    "moment": "^2.24",
+    "select2": "^4.0",
+    "uuid": "^7.0",
+    "vee-validate": "^3.2",
+    "vue": "^2.6",
+    "vue-class-component": "^7.2"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "sideeffects": false,
+  "files": [
+    "dist",
+    "readme.md"
+  ]
 }
