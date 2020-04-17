@@ -4,7 +4,12 @@ import {VueConstructor} from 'vue/types/vue';
 import {installInterceptors, PROP_NAME_PRIVATE} from './http';
 import defineProperty = Reflect.defineProperty;
 
-export default function install(_vue: VueConstructor) {
+export interface HttpOptions {
+  testRoute?: string;
+  loginRoute?: string;
+}
+
+export default function install(_vue: VueConstructor, options?: HttpOptions) {
   defineProperty(_vue.prototype, '$http', {
     get(): AxiosInstance {
       if (!this) {
@@ -19,7 +24,7 @@ export default function install(_vue: VueConstructor) {
         });
 
         // @ts-ignore this is the Vue instance
-        installInterceptors(instance, this);
+        installInterceptors(instance, this, options || {});
 
         // @ts-ignore Property name
         this[PROP_NAME_PRIVATE] = instance;
