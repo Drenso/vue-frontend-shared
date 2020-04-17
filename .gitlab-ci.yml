@@ -1,9 +1,52 @@
 stages:
+  - prepare
+  - lint
+  - build
   - publish
+
+include:
+  # Prepare
+  - project: 'intern/runner-templates'
+    ref: "1.1"
+    file: '/yarn/install-js-dependencies.yml'
+
+  # Lint
+  - project: 'intern/runner-templates'
+    ref: "1.1"
+    file: '/ts/tslint.yml'
+
+  # Build
+  - project: 'intern/runner-templates'
+    ref: "1.1"
+    file: '/yarn/build-prod.yml'
+
+install-js-dependencies:
+  except:
+    - schedules
+    - master
+
+ts-analysis:
+  except:
+    - schedules
+    - tags
+    - master
+
+build-assets:
+  needs:
+    - install-js-dependencies
+  artifacts:
+    when: on_failure
+    untracked: true
+  except:
+    - schedules
+    - tags
+    - master
 
 publish-pkg:
   stage: publish
   image: node:10
+  needs:
+    - install-js-dependencies
   script:
     - echo "username=${NPM_USER}" >> .npmrc
     - echo "_password=$(echo -n ${NPM_PASS} | base64)" >> .npmrc
