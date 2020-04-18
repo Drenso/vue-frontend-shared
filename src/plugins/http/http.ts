@@ -16,8 +16,9 @@ export function installInterceptors(axiosInstance: AxiosInstance, vueInstance: V
         await axios.create().get(vueInstance.$router.generate(options.testRoute || 'app_api_authentication_test'));
         await vueInstance.$modal.api403();
       } catch (e) {
-        await vueInstance.$modal.api403SessionExpired();
-        window.location.href = vueInstance.$router.generate(options.loginRoute || 'login');
+        if (await vueInstance.$modal.api403SessionExpired()) {
+          window.location.href = vueInstance.$router.generate(options.loginRoute || 'login');
+        }
       }
     }
 

@@ -34,9 +34,9 @@ class DrensoModals {
   }
 
   public async api403SessionExpired(): Promise<BvMsgBoxData> {
-    return this.bvModal.msgBoxOk(this.getMessage(
+    return this.bvModal.msgBoxConfirm(this.getMessage(
       'frontend.api.message.403-session-expired',
-      'You\'re no longer authenticated, resulting your request to fail. Please re-login.',
+      'You\'re no longer authenticated, resulting your request to fail. Would you like to reauthenticate in this window?',
     ));
   }
 
