@@ -1,6 +1,7 @@
 import Vue from 'vue/types/umd';
 import {VueConstructor} from 'vue/types/vue';
 import {Options} from 'select2';
+import jQuery from 'jquery';
 
 export interface Select2Options extends Options {
   convertValue?: (val: any) => any;
@@ -10,7 +11,7 @@ export interface Select2Options extends Options {
 
 export default function install(_vue: VueConstructor) {
   _vue.prototype.$select2 = (element: Vue, options?: Select2Options) => {
-    const $element = $(element.$el);
+    const $element = jQuery(element.$el);
 
     const resolvedOptions: Select2Options = Object.assign({
       width: '100%',
@@ -37,7 +38,7 @@ export default function install(_vue: VueConstructor) {
   };
 
   _vue.prototype.$refreshSelect2 = (element: Vue, options?: Select2Options) => {
-    const $element = $(element.$el);
+    const $element = jQuery(element.$el);
 
     if ($element.data('select2') !== undefined) {
       $element.off('select2:close');
