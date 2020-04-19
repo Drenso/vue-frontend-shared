@@ -6,7 +6,7 @@ import defineProperty = Reflect.defineProperty;
 
 export default function install(_vue: VueConstructor, messages: MessageObject) {
   if (!messages) {
-    throw new Error('Missing the required Router object! Supply it when enabling the bundle!');
+    throw new Error('Missing the required messages object! Supply it when enabling this plugin!');
   }
 
   const translator = new Translator(messages);

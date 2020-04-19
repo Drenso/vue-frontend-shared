@@ -3,11 +3,14 @@ import {RouterConfiguration, RouterInterface} from './router_types';
 import defineProperty = Reflect.defineProperty;
 
 export default function install(_vue: VueConstructor, config: RouterConfiguration) {
+  if (!config) {
+    throw new Error('Missing the required configuration object! Supply it when enabling this plugin!');
+  }
   if (!config.router) {
-    throw new Error('Missing the required Router object! Supply it when enabling the bundle!');
+    throw new Error('Missing the required Router object! Supply it when enabling this plugin!');
   }
   if (!config.routes) {
-    throw new Error('Missing the required routes! Supply it when enabling the bundle!');
+    throw new Error('Missing the required routes! Supply it when enabling this plugin!');
   }
 
   config.router.setRoutingData(config.routes);
