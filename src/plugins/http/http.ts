@@ -1,8 +1,6 @@
 import axios, {AxiosError, AxiosInstance, AxiosResponse} from 'axios';
 import {HttpOptions} from './plugin';
 
-export const PROP_NAME_PRIVATE = '_drenso__http';
-
 export function installInterceptors(axiosInstance: AxiosInstance, vueInstance: Vue, options: HttpOptions) {
   axiosInstance.interceptors.response.use((response: AxiosResponse): AxiosResponse => {
     return response;

@@ -1,8 +1,14 @@
-import axios, {AxiosInstance} from 'axios';
+import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, Method} from 'axios';
 import {warn} from 'vue-class-component/lib/util';
 import {VueConstructor} from 'vue/types/vue';
-import {installInterceptors, PROP_NAME_PRIVATE} from './http';
+import {installInterceptors} from './http';
+import {downloadResponse} from './file_downloader';
 import defineProperty = Reflect.defineProperty;
+
+const PROP_NAME_PRIVATE: string = '_drenso__http';
+
+type DownloadSignature
+  = (url: string, method?: Method, filename?: string, axiosOptions?: AxiosRequestConfig) => Promise<void>;
 
 export interface HttpOptions {
   testRoute?: string;
@@ -16,28 +22,45 @@ export default function install(_vue: VueConstructor, options?: HttpOptions) {
         warn('Http can only be accessed from the "this" context, due to the $bvModal requirement');
       }
 
+      // @ts-ignore This is Vue instance in this context
+      const vueInstance: Vue = this;
+
       // @ts-ignore Property name
-      if (!this[PROP_NAME_PRIVATE]) {
-        // @ts-ignore Property name
-        const instance = axios.create({
+      if (!vueInstance[PROP_NAME_PRIVATE]) {
+        const axiosInstance = axios.create({
           withCredentials: true,
         });
 
-        // @ts-ignore this is the Vue instance
-        installInterceptors(instance, this, options || {});
+        installInterceptors(axiosInstance, vueInstance, options || {});
 
         // @ts-ignore Property name
-        this[PROP_NAME_PRIVATE] = instance;
+        vueInstance[PROP_NAME_PRIVATE] = axiosInstance;
       }
 
       // @ts-ignore Property name
-      return this[PROP_NAME_PRIVATE];
+      return vueInstance[PROP_NAME_PRIVATE];
     },
   });
+
+  defineProperty(_vue.prototype, '$httpDownload', {
+    get(): DownloadSignature {
+      return (url: string, method: Method = 'get', filename?: string, axiosOptions?: AxiosRequestConfig) => {
+        // @ts-ignore This is Vue instance in this context
+        const vueInstance: Vue = this;
+
+        return vueInstance.$http(url, Object.assign({method, responseType: 'arraybuffer'}, axiosOptions))
+          .then((response: AxiosResponse) => {
+            downloadResponse(response, filename);
+          });
+      };
+    },
+  });
+
 }
 
 declare module 'vue/types/vue' {
   interface Vue {
     readonly $http: AxiosInstance;
+    readonly $httpDownload: DownloadSignature;
   }
 }
