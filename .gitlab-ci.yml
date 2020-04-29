@@ -45,6 +45,7 @@ build-assets:
 publish-pkg:
   stage: publish
   image: node:10
+  resource_group: $CI_JOB_NAME
   needs:
     - install-js-dependencies
   script:
