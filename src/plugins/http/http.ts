@@ -23,3 +23,32 @@ export function installInterceptors(axiosInstance: AxiosInstance, vueInstance: V
     return Promise.reject(error);
   });
 }
+
+/**
+ * Send the actual beacon, checking whether the function exists
+ * @param url
+ * @param data
+ */
+export function sendBeacon(url: string, data?: any) {
+  if (typeof window.navigator.sendBeacon === 'function') {
+    window.navigator.sendBeacon(url, data);
+  } else if (typeof $ === 'function' && typeof $.ajax === 'function') {
+    // Possibly unreliable, but better than nothing if the beacon API is not supported
+    $.ajax({
+      async: false,
+      method: 'POST',
+      url,
+      data,
+    });
+  } else {
+    // Possibly unreliable, but better than nothing if the beacon API and jQuery are not available
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+    if (data) {
+      xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+      xhr.send(JSON.stringify(data));
+    } else {
+      xhr.send();
+    }
+  }
+}
