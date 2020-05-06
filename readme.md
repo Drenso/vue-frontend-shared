@@ -25,6 +25,22 @@ import {Plugins} from '@drenso/vue-frontend-shared';
 Vue.use(Plugins.Plugin);
 ```
 
+### Moment
+
+You might want to exclude unneeded moment locales with webpack.
+See https://momentjscom.readthedocs.io/en/latest/moment/00-use-it/08-webpack/.
+
+For Webpack Encore, use `.addPlugin(new MomentLocalesPlugin())`.
+
+You can set the default timezone as option for the plugin:
+
+```js
+import {Plugins} from '@drenso/vue-frontend-shared';
+Vue.use(Plugins.Moment, {
+  default_tz: 'Europe/Amsterdam',
+});
+```
+
 ### Router
 
 You will need to import the Router and routes locally, and supply them when enabling the plugin.
