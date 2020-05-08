@@ -11,11 +11,11 @@ export function installInterceptors(axiosInstance: AxiosInstance, vueInstance: V
       // Test whether authentication is still valid
       // Use new instance to avoid interceptor loop
       try {
-        await axios.create().get(vueInstance.$router.generate(options.testRoute || 'app_api_authentication_test'));
+        await axios.create().get(vueInstance.$sfRouter.generate(options.testRoute || 'app_api_authentication_test'));
         await vueInstance.$modal.api403();
       } catch (e) {
         if (await vueInstance.$modal.api403SessionExpired()) {
-          window.location.href = vueInstance.$router.generate(options.loginRoute || 'login');
+          window.location.href = vueInstance.$sfRouter.generate(options.loginRoute || 'login');
         }
       }
     }

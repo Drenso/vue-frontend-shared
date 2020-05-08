@@ -15,7 +15,7 @@ export default function install(_vue: VueConstructor, config: RouterConfiguratio
 
   config.router.setRoutingData(config.routes);
 
-  defineProperty(_vue.prototype, '$router', {
+  defineProperty(_vue.prototype, '$sfRouter', {
     get(): RouterInterface {
       return config.router;
     },
@@ -32,7 +32,7 @@ export default function install(_vue: VueConstructor, config: RouterConfiguratio
 
 declare module 'vue/types/vue' {
   interface Vue {
-    readonly $router: RouterInterface;
+    readonly $sfRouter: RouterInterface;
   }
 }
 
