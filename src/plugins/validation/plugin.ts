@@ -1,6 +1,6 @@
 import {formattedTime, secondsToTimeComponents} from '../moment/moment';
 import {extend, ValidationObserver, ValidationProvider} from 'vee-validate';
-import {max, max_value, min, min_value, required} from 'vee-validate/dist/rules';
+import {email, max, max_value, min, min_value, required} from 'vee-validate/dist/rules';
 import {VueConstructor} from 'vue/types/vue';
 
 export default function install(_vue: VueConstructor) {
@@ -17,6 +17,13 @@ export default function install(_vue: VueConstructor) {
       `_validation.${params.message ? params.message : defaultMessage}`,
       Object.assign(params.message_attr || {}, extraParams || {}));
   };
+
+  extend('email', {
+    ...email,
+    message(field, params) {
+      return validationMessage('common.email', params);
+    },
+  });
 
   extend('greater_or_equal', {
     params: ['target'],
