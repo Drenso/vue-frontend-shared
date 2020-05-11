@@ -3,19 +3,24 @@ import {extend, ValidationObserver, ValidationProvider} from 'vee-validate';
 import {email, max, max_value, min, min_value, required} from 'vee-validate/dist/rules';
 import {VueConstructor} from 'vue/types/vue';
 
+export function buildValidationMessage(
+  _vue: VueConstructor, defaultMessage: string, params?: Record<string, any>, extraParams?: { [key: string]: string }): string {
+  if (!_vue.prototype.$translator) {
+    return defaultMessage;
+  }
+
+  params = params || {};
+  return _vue.prototype.$translator.trans(
+    `_validation.${params.message ? params.message : defaultMessage}`,
+    Object.assign(params.message_attr || {}, extraParams || {}));
+}
+
 export default function install(_vue: VueConstructor) {
   _vue.component('ValidationObserver', ValidationObserver);
   _vue.component('ValidationProvider', ValidationProvider);
 
   const validationMessage = (defaultMessage: string, params?: Record<string, any>, extraParams?: { [key: string]: string }): string => {
-    if (!_vue.prototype.$translator) {
-      return defaultMessage;
-    }
-
-    params = params || {};
-    return _vue.prototype.$translator.trans(
-      `_validation.${params.message ? params.message : defaultMessage}`,
-      Object.assign(params.message_attr || {}, extraParams || {}));
+    return buildValidationMessage(_vue, defaultMessage, params, extraParams);
   };
 
   extend('email', {
