@@ -27,7 +27,7 @@ export default function install(_vue: VueConstructor, options?: MomentOptions) {
 
 declare module 'vue/types/vue' {
   interface Vue {
-    readonly $moment: Moment;
+    readonly $moment: typeof moment;
     readonly $momentToApiISO: (moment: Moment) => string;
   }
 }
