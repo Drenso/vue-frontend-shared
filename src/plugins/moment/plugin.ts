@@ -22,6 +22,20 @@ export default function install(_vue: VueConstructor, options?: MomentOptions) {
     moment,
   });
 
+  const momentFilter = (defaultFormat: string) => {
+    return (value: any, format?: string) => {
+      if (!value) {
+        return '';
+      }
+
+      return moment(value).format(format || defaultFormat);
+    };
+  };
+
+  _vue.filter('moment_datetime', momentFilter('YYYY-MM-DD HH:mm'));
+  _vue.filter('moment_date', momentFilter('YYYY-MM-DD'));
+  _vue.filter('moment_time', momentFilter('HH:mm'));
+
   _vue.prototype.$momentToApiISO = toApiISO;
 }
 
