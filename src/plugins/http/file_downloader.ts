@@ -73,7 +73,14 @@ export function downloadUrl(url: string, filename?: string) {
  */
 export function downloadResponse(response: AxiosResponse, filename?: string) {
   const blob = new Blob([response.data], {type: getResponseTypeFromResponse(response)});
-  const blobUrl = window.URL.createObjectURL(blob);
+  const resolvedFilename = filename === undefined ? getFileNameFromResponse(response) : filename;
 
-  downloadUrl(blobUrl, filename === undefined ? getFileNameFromResponse(response) : filename);
+  if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+    // For microsoft IE
+    window.navigator.msSaveOrOpenBlob(blob, resolvedFilename);
+  } else {
+    // Other browsers
+    const blobUrl = window.URL.createObjectURL(blob);
+    downloadUrl(blobUrl, resolvedFilename);
+  }
 }
