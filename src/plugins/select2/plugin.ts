@@ -37,7 +37,7 @@ export default function install(_vue: VueConstructor) {
     });
   };
 
-  _vue.prototype.$refreshSelect2 = (element: Vue, options?: Select2Options) => {
+  _vue.prototype.$destroySelect2 = (element: Vue) => {
     const $element = jQuery(element.$el);
 
     if ($element.data('select2') !== undefined) {
@@ -45,7 +45,10 @@ export default function install(_vue: VueConstructor) {
       $element.off('change');
       $element.select2('destroy');
     }
+  };
 
+  _vue.prototype.$refreshSelect2 = (element: Vue, options?: Select2Options) => {
+    _vue.prototype.$destroySelect2(element);
     _vue.prototype.$select2(element, options);
   };
 }
@@ -55,5 +58,7 @@ declare module 'vue/types/vue' {
     $select2(element: Vue, options?: Select2Options): void;
 
     $refreshSelect2(element: Vue, options?: Select2Options): void;
+
+    $destroySelect2(element: Vue): void;
   }
 }
