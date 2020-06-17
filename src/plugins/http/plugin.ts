@@ -42,6 +42,14 @@ export default function install(_vue: VueConstructor, options?: HttpOptions) {
     },
   });
 
+  defineProperty(_vue.prototype, '$httpInstance', {
+    get(): AxiosInstance {
+      return axios.create({
+        withCredentials: true,
+      });
+    },
+  });
+
   defineProperty(_vue.prototype, '$httpDownload', {
     get(): DownloadSignature {
       return (url: string, method: Method = 'get', filename?: string, axiosOptions?: AxiosRequestConfig) => {
@@ -61,6 +69,7 @@ export default function install(_vue: VueConstructor, options?: HttpOptions) {
 declare module 'vue/types/vue' {
   interface Vue {
     readonly $http: AxiosInstance;
+    readonly $httpInstance: AxiosInstance;
     readonly $httpDownload: DownloadSignature;
   }
 }
