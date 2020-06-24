@@ -73,7 +73,7 @@ publish-pkg-npmjs:
     - echo "email=${NPMJS_EMAIL}" >> .npmrc
     - echo "always-auth=true" >> .npmrc
     - echo "//${NPMJS_REGISTRY}/:_authToken=${NPMJS_TOKEN}" >> .npmrc
-    - echo "registry \"${NPMJS_REGISTRY}\"" >> .yarnrc
+    - echo "registry \"https://${NPMJS_REGISTRY}\"" >> .yarnrc
     - yarn version --new-version ${CI_COMMIT_TAG} --no-git-tag-version
     - yarn publish --access public
   after_script:
