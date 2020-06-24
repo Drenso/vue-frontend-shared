@@ -6,7 +6,7 @@
     "Bob van de Vijver <bob@drenso.nl>",
     "Tobias Feijten <tobias@drenso.nl>"
   ],
-  "license": "UNLICENSED",
+  "license": "MIT",
   "private": false,
   "version": "0.0.0",
   "scripts": {
