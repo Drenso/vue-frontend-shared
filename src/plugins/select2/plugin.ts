@@ -51,6 +51,14 @@ export default function install(_vue: VueConstructor) {
     _vue.prototype.$destroySelect2(element);
     _vue.prototype.$select2(element, options);
   };
+
+  _vue.prototype.$refreshSelect2ValueOnly = (element: Vue) => {
+    const $element = jQuery(element.$el);
+
+    if ($element.data('select2') !== undefined) {
+      $element.trigger('change.select2');
+    }
+  };
 }
 
 declare module 'vue/types/vue' {
@@ -60,5 +68,7 @@ declare module 'vue/types/vue' {
     $refreshSelect2(element: Vue, options?: Select2Options): void;
 
     $destroySelect2(element: Vue): void;
+
+    $refreshSelect2ValueOnly(element: Vue): void;
   }
 }
