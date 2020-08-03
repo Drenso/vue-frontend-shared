@@ -7,7 +7,7 @@ export function installInterceptors(axiosInstance: AxiosInstance, vueInstance: V
   }, async (error: AxiosError) => {
     if (!error.response || error.response.status === 500) {
       await vueInstance.$modal.api500();
-    } else if (error.response && error.response.status === 403) {
+    } else if (error.response && (error.response.status === 403 || error.response.status === 401)) {
       // Test whether authentication is still valid
       // Use new instance to avoid interceptor loop
       try {
