@@ -115,6 +115,22 @@ export default function install(_vue: VueConstructor) {
     },
   });
 
+  extend('array_length', {
+    params: ['minLength', 'maxLength'],
+    // @ts-ignore
+    validate(values, {minLength, maxLength}) {
+      if (!Array.isArray(values)) {
+        return false;
+      }
+
+      return values.length >= minLength && values.length <= maxLength;
+    },
+    message(field, params) {
+      return validationMessage('common.array-length', params,
+        {min: params!.minLength, max: params!.maxLength});
+    },
+  });
+
   extend('string_array_item_unique', {
     validate(values) {
       if (!Array.isArray(values)) {
