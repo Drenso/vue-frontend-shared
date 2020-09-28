@@ -7,6 +7,11 @@ export interface Select2Options extends Options {
   convertValue?: (val: any) => any;
   initialOptions?: string[];
   defaultSelected?: string[];
+  focusOnCreate?: boolean;
+}
+
+export interface Select2DestroyResult {
+  wasFocused?: boolean;
 }
 
 export default function install(_vue: VueConstructor) {
@@ -35,20 +40,36 @@ export default function install(_vue: VueConstructor) {
       element.$emit('input', value);
       element.$emit('change', value);
     });
+
+    if (resolvedOptions.focusOnCreate) {
+      // @ts-ignore
+      $element.select2('focus');
+    }
   };
 
-  _vue.prototype.$destroySelect2 = (element: Vue) => {
+  _vue.prototype.$destroySelect2 = (element: Vue): Select2DestroyResult => {
     const $element = jQuery(element.$el);
+    const result: Select2DestroyResult = {
+      wasFocused: document.activeElement ? $.contains(element.$el.parentElement!, document.activeElement) : false,
+    };
 
     if ($element.data('select2') !== undefined) {
       $element.off('select2:close');
       $element.off('change');
       $element.select2('destroy');
     }
+
+    return result;
   };
 
   _vue.prototype.$refreshSelect2 = (element: Vue, options?: Select2Options) => {
-    _vue.prototype.$destroySelect2(element);
+    const result = _vue.prototype.$destroySelect2(element);
+
+    options = options || {};
+    if (result.wasFocused) {
+      options.focusOnCreate = true;
+    }
+
     _vue.prototype.$select2(element, options);
   };
 
@@ -67,7 +88,7 @@ declare module 'vue/types/vue' {
 
     $refreshSelect2(element: Vue, options?: Select2Options): void;
 
-    $destroySelect2(element: Vue): void;
+    $destroySelect2(element: Vue): Select2DestroyResult;
 
     $refreshSelect2ValueOnly(element: Vue): void;
   }
