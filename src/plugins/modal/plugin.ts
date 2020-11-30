@@ -40,6 +40,13 @@ class DrensoModals {
     ));
   }
 
+  public async api413(): Promise<BvMsgBoxData> {
+    return this.bvModal.msgBoxOk(this.getMessage(
+      'frontend.api.message.413',
+      'The submitted data (most likely an attached file) is too large to be handled.',
+    ));
+  }
+
   public async api500(): Promise<BvMsgBoxData> {
     return this.bvModal.msgBoxOk(this.getMessage(
       'frontend.api.message.500',

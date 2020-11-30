@@ -7,16 +7,24 @@ export function installInterceptors(axiosInstance: AxiosInstance, vueInstance: V
   }, async (error: AxiosError) => {
     if (!error.response || error.response.status === 500) {
       await vueInstance.$modal.api500();
-    } else if (error.response && (error.response.status === 403 || error.response.status === 401)) {
-      // Test whether authentication is still valid
-      // Use new instance to avoid interceptor loop
-      try {
-        await axios.create().get(vueInstance.$sfRouter.generate(options.testRoute || 'app_api_authentication_test'));
-        await vueInstance.$modal.api403();
-      } catch (e) {
-        if (await vueInstance.$modal.api403SessionExpired()) {
-          window.location.href = vueInstance.$sfRouter.generate(options.loginRoute || 'login');
+    } else if (error.response) {
+      if (error.response.status === 403 || error.response.status === 401) {
+        // Test whether authentication is still valid
+        try {
+          // Use new instance to avoid interceptor loop
+          await axios.create().get(vueInstance.$sfRouter.generate(options.testRoute || 'app_api_authentication_test'));
+
+          // The request succeeded, so the session is still good
+          await vueInstance.$modal.api403();
+        } catch (e) {
+          // The request failed, so the session has expired. Ask for login forward.
+          if (await vueInstance.$modal.api403SessionExpired()) {
+            window.location.href = vueInstance.$sfRouter.generate(options.loginRoute || 'login');
+          }
         }
+      } else if (error.response.status === 413) {
+        // Just show a message when the server cannot handle the request size
+        await vueInstance.$modal.api413();
       }
     }
 
