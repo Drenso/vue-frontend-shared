@@ -1,5 +1,5 @@
 import Big, {RoundingMode} from 'big.js';
-import {Moment} from 'moment';
+import { Moment } from 'moment-timezone';
 
 export interface TimeComponent {
   hours: number;
@@ -28,6 +28,6 @@ export function formattedTime(timeComponents: TimeComponent): string {
     + `${String(timeComponents.seconds).padStart(2, '0')}`;
 }
 
-export function toApiISO(moment: Moment): string {
-  return moment.toISOString().split('.').shift() + 'Z';
+export function toApiISO(value: Moment): string {
+  return value.toISOString().split('.').shift() + 'Z';
 }
