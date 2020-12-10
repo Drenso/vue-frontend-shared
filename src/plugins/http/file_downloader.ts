@@ -75,12 +75,21 @@ export function downloadResponse(response: AxiosResponse, filename?: string) {
   const blob = new Blob([response.data], {type: getResponseTypeFromResponse(response)});
   const resolvedFilename = filename === undefined ? getFileNameFromResponse(response) : filename;
 
+  downloadBlob(blob, resolvedFilename);
+}
+
+/**
+ * Download the blob as a file to the local machine
+ * @param blob The blob object
+ * @param filename Filename parameter.
+ */
+export function downloadBlob(blob: Blob, filename: string) {
   if (window.navigator && window.navigator.msSaveOrOpenBlob) {
     // For microsoft IE
-    window.navigator.msSaveOrOpenBlob(blob, resolvedFilename);
+    window.navigator.msSaveOrOpenBlob(blob, filename);
   } else {
     // Other browsers
     const blobUrl = window.URL.createObjectURL(blob);
-    downloadUrl(blobUrl, resolvedFilename);
+    downloadUrl(blobUrl, filename);
   }
 }
