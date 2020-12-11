@@ -31,6 +31,8 @@ export class Translator {
 
     const splittedKey = key.split('.');
     if (!this.messages.hasMessage(splittedKey)) {
+      console.debug('Missing translation key', key);
+
       return key;
     }
 
