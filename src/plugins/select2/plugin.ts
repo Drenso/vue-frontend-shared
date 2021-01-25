@@ -50,7 +50,8 @@ export default function install(_vue: VueConstructor) {
   _vue.prototype.$destroySelect2 = (element: Vue): Select2DestroyResult => {
     const $element = jQuery(element.$el);
     const result: Select2DestroyResult = {
-      wasFocused: document.activeElement ? $.contains(element.$el.parentElement!, document.activeElement) : false,
+      wasFocused: document.activeElement && element.$el.parentElement
+        ? $.contains(element.$el.parentElement, document.activeElement) : false,
     };
 
     if ($element.data('select2') !== undefined) {
