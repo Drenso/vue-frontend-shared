@@ -57,6 +57,8 @@ export default function install(_vue: VueConstructor) {
     if ($element.data('select2') !== undefined) {
       $element.off('select2:close');
       $element.off('change');
+      // Make sure to call close before destroy, as otherwise not all event handlers are removed!
+      $element.select2('close');
       $element.select2('destroy');
     }
 
