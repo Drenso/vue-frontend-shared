@@ -30,6 +30,13 @@ export function installInterceptors(axiosInstance: AxiosInstance, vueInstance: V
 
     return Promise.reject(error);
   });
+
+  // Install extra interceptors, if any
+  if (Array.isArray(options.extraInterceptors)) {
+    options.extraInterceptors.forEach((i) => {
+      axiosInstance.interceptors.response.use(i.onFulfilled, i.onRejected);
+    });
+  }
 }
 
 /**

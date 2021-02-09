@@ -1,4 +1,4 @@
-import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, Method} from 'axios';
+import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Method} from 'axios';
 import {warn} from 'vue-class-component/lib/util';
 import {VueConstructor} from 'vue/types/vue';
 import {installInterceptors} from './http';
@@ -10,9 +10,15 @@ const PROP_NAME_PRIVATE: string = '_drenso__http';
 type DownloadSignature
   = (url: string, method?: Method, filename?: string, axiosOptions?: AxiosRequestConfig) => Promise<void>;
 
+interface AxiosInterceptor {
+  onFulfilled?: (response: AxiosResponse) => AxiosResponse;
+  onRejected?: (error: AxiosError) => Promise<AxiosError>;
+}
+
 export interface HttpOptions {
   testRoute?: string;
   loginRoute?: string;
+  extraInterceptors?: AxiosInterceptor[];
 }
 
 export default function install(_vue: VueConstructor, options?: HttpOptions) {
