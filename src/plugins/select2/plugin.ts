@@ -27,6 +27,22 @@ export default function install(_vue: VueConstructor) {
     $element.on('select2:close', (e) => {
       (element as Vue).$emit('blur');
     });
+    $element.on('select2:open', (e) => {
+      setTimeout(() => {
+        if ($element.data('select2') === undefined) {
+          return;
+        }
+        if ($element.data('select2').dropdown === undefined) {
+          return;
+        }
+        if ($element.data('select2').dropdown.$search === undefined) {
+          return;
+        }
+
+        // Also trigger select as some browser might not autofocus the search field
+        $element.data('select2').dropdown.$search.trigger('select');
+      }, 1);
+    });
     $element.on('change', (e) => {
       let value = $element.val();
       if (resolvedOptions.convertValue) {
@@ -55,7 +71,9 @@ export default function install(_vue: VueConstructor) {
     };
 
     if ($element.data('select2') !== undefined) {
+      // Remove bound handlers
       $element.off('select2:close');
+      $element.off('select2:open');
       $element.off('change');
       // Make sure to call close before destroy, as otherwise not all event handlers are removed!
       $element.select2('close');
