@@ -3,6 +3,10 @@ import {VueConstructor} from 'vue/types/vue';
 import {Options} from 'select2';
 import jQuery from 'jquery';
 
+export interface Select2Configuration {
+  autoDropdownParent?: boolean; // Auto determine dropdown parent (bootstrap modals)
+}
+
 export interface Select2Options extends Options {
   convertValue?: (val: any) => any;
   initialOptions?: string[];
@@ -14,7 +18,7 @@ export interface Select2DestroyResult {
   wasFocused?: boolean;
 }
 
-export default function install(_vue: VueConstructor) {
+export default function install(_vue: VueConstructor, config: Select2Configuration) {
   _vue.prototype.$select2 = (element: Vue, options?: Select2Options) => {
     const $element = jQuery(element.$el);
 
@@ -22,6 +26,13 @@ export default function install(_vue: VueConstructor) {
       width: '100%',
       theme: 'bootstrap',
     }, options || {});
+
+    if (!resolvedOptions.dropdownParent && config.autoDropdownParent === true) {
+      // Automatically determine the dropdown parent when configured
+      // Works for bootstrap modals
+      const modalContainer = $element.closest('.modal-body') as JQuery<HTMLElement>;
+      resolvedOptions.dropdownParent = modalContainer.length !== 0 ? modalContainer : undefined;
+    }
 
     $element.select2(resolvedOptions);
     $element.on('select2:close', (e) => {
