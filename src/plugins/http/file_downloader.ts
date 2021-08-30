@@ -84,8 +84,10 @@ export function downloadResponse(response: AxiosResponse, filename?: string) {
  * @param filename Filename parameter.
  */
 export function downloadBlob(blob: Blob, filename: string) {
+  // @ts-ignore IE only property
   if (window.navigator && window.navigator.msSaveOrOpenBlob) {
     // For microsoft IE
+    // @ts-ignore IE only property
     window.navigator.msSaveOrOpenBlob(blob, filename);
   } else {
     // Other browsers
