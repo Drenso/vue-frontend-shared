@@ -25,6 +25,15 @@ import {Plugins} from '@drenso/vue-frontend-shared';
 Vue.use(Plugins.Plugin);
 ```
 
+## Fixes
+
+We offer a couple of fixes. Use them by importing the `Fixes`. For example, the Select2 jQuery 3.6 fix:
+```js
+import {Fixes} from '@drenso/vue-frontend-shared';
+
+Fixes.Select2.jQuery3dot6Fix();
+```
+
 ### Moment
 
 You might want to exclude unneeded moment locales with webpack.
