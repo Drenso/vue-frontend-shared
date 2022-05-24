@@ -30,6 +30,22 @@ export default function install(_vue: VueConstructor) {
     },
   });
 
+  extend('greater_than', {
+    params: ['minValue'],
+    // @ts-ignore
+    validate(value, {minValue}) {
+      minValue = Number(minValue);
+      if (Number.isNaN(minValue) || typeof minValue !== 'number' || typeof value !== 'number') {
+        return true;
+      }
+
+      return value > minValue;
+    },
+    message(field, params) {
+      return validationMessage('common.greater-than', params, {field: params.minValue.toLowerCase()});
+    },
+  });
+
   extend('greater_or_equal', {
     params: ['target'],
     // @ts-ignore
@@ -42,6 +58,22 @@ export default function install(_vue: VueConstructor) {
     },
     message(field, params) {
       return validationMessage('common.greater-than-or-equal', params, {field: params!.target.toLowerCase()});
+    },
+  });
+
+  extend('less_than', {
+    params: ['maxValue'],
+    // @ts-ignore
+    validate(value, {maxValue}) {
+      maxValue = Number(maxValue);
+      if (Number.isNaN(maxValue) || typeof maxValue !== 'number' || typeof value !== 'number') {
+        return true;
+      }
+
+      return value < maxValue;
+    },
+    message(field, params) {
+      return validationMessage('common.less-than', params, {field: params.maxValue.toLowerCase()});
     },
   });
 
