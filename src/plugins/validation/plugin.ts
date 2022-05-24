@@ -42,7 +42,7 @@ export default function install(_vue: VueConstructor) {
       return value > minValue;
     },
     message(field, params) {
-      return validationMessage('common.greater-than', params, {field: params.minValue.toLowerCase()});
+      return validationMessage('common.greater-than', params, {value: params.minValue});
     },
   });
 
@@ -73,7 +73,7 @@ export default function install(_vue: VueConstructor) {
       return value < maxValue;
     },
     message(field, params) {
-      return validationMessage('common.less-than', params, {field: params.maxValue.toLowerCase()});
+      return validationMessage('common.less-than', params, {value: params.maxValue});
     },
   });
 
