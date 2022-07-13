@@ -1,4 +1,5 @@
 import Auth from './plugins/auth/plugin';
+import Currency from './plugins/currency/plugin';
 import Http from './plugins/http/plugin';
 import Modal from './plugins/modal/plugin';
 import Moment from './plugins/moment/plugin';
@@ -11,6 +12,7 @@ import Validation from './plugins/validation/plugin';
 
 export {
   Auth,
+  Currency,
   Http,
   Modal,
   Moment,
