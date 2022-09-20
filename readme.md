@@ -73,8 +73,13 @@ For example:
 ```js
 import {Plugins} from '@drenso/vue-frontend-shared';
 import I18n from '@trans/messages+intl-icu.en.yml';
-Vue.use(Plugins.Translator, I18n);
+Vue.use(Plugins.Translator, {
+    messages: I18n,
+    missingKeyCallback: (key) => console.log(key),
+});
 ```
+
+`missingKeyCallback` is optional.
 
 Make sure to configure the `messageforamt-loader` for the supplied translation files in your `webpack.config.js`!
 For example:
