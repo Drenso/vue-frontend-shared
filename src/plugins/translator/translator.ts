@@ -1,21 +1,22 @@
 import Messages, {MessageObject} from 'messageformat/messages';
 
+export type MissingTranslationKeyCallback = (key: string) => void;
+
 /**
  * The actual translator
  */
 export class Translator {
 
-  /**
-   * The messages
-   */
-  private messages: Messages;
+  private readonly messages: Messages;
+  private readonly missingKeyCallback?: MissingTranslationKeyCallback;
 
   /**
    * Constructor
    */
-  constructor(messages: MessageObject) {
+  constructor(messages: MessageObject, missingKeyCallback?: MissingTranslationKeyCallback) {
     // We only use the default locale for now
     this.messages = new Messages({en: messages}, 'en');
+    this.missingKeyCallback = missingKeyCallback;
   }
 
   /**
@@ -32,6 +33,9 @@ export class Translator {
     const splittedKey = key.split('.');
     if (!this.messages.hasMessage(splittedKey)) {
       console.debug('Missing translation key', key);
+      if (typeof this.missingKeyCallback === 'function') {
+        this.missingKeyCallback(key);
+      }
 
       return key;
     }

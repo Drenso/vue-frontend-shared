@@ -1,15 +1,19 @@
 import {VueConstructor} from 'vue/types/vue';
-import {Translator} from './translator';
+import {MissingTranslationKeyCallback, Translator} from './translator';
 import {MessageObject} from 'messageformat/messages';
 import defineProperty = Reflect.defineProperty;
 
+export interface TranslatorConfiguration {
+  messages: MessageObject;
+  missingKeyCallback?: MissingTranslationKeyCallback;
+}
 
-export default function install(_vue: VueConstructor, messages: MessageObject) {
-  if (!messages) {
-    throw new Error('Missing the required messages object! Supply it when enabling this plugin!');
+export default function install(_vue: VueConstructor, config: TranslatorConfiguration) {
+  if (!config || !config.messages) {
+    throw new Error('Missing the required configuration object! Supply it when enabling this plugin!');
   }
 
-  const translator = new Translator(messages);
+  const translator = new Translator(config.messages, config.missingKeyCallback);
 
   defineProperty(_vue.prototype, '$translator', {
     get(): Translator {
