@@ -44,7 +44,7 @@ build-assets:
 
 publish-pkg:
   stage: publish
-  image: node:16.18.0-alpine
+  image: node:18.11.0-alpine
   resource_group: $CI_JOB_NAME
   needs:
     - install-js-dependencies
@@ -64,7 +64,7 @@ publish-pkg:
 
 publish-pkg-npmjs:
   stage: publish
-  image: node:16.18.0-alpine
+  image: node:18.11.0-alpine
   resource_group: ${CI_JOB_NAME}_npmjs
   needs:
     - install-js-dependencies
