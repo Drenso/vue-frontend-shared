@@ -33,8 +33,10 @@ export default function install(_vue: VueConstructor, options?: MomentOptions) {
   };
 
   _vue.filter('moment_datetime', momentFilter('YYYY-MM-DD HH:mm'));
+  _vue.filter('moment_datetime_with_seconds', momentFilter('YYYY-MM-DD HH:mm:ss'));
   _vue.filter('moment_date', momentFilter('YYYY-MM-DD'));
   _vue.filter('moment_time', momentFilter('HH:mm'));
+  _vue.filter('moment_time_with_seconds', momentFilter('HH:mm:ss'));
 
   _vue.prototype.$momentToApiISO = toApiISO;
 }
