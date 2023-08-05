@@ -20,7 +20,7 @@
     "tslint": "^6.1",
     "typescript": "^4.0",
     "//": "Peer dependencies",
-    "@types/big.js": "^4.0 || ^6.0",
+    "@types/big.js": "^4.0 || ^6.0 <6.2.0",
     "@types/jquery": "^3.3",
     "@types/select2": "^4.0",
     "@types/uuid": "^7.0 || ^8.0",
@@ -38,7 +38,7 @@
     "vue-moment": "^4.1"
   },
   "peerDependencies": {
-    "@types/big.js": "^4.0 || ^6.0",
+    "@types/big.js": "^4.0 || ^6.0 <6.2.0",
     "@types/jquery": "^3.3",
     "@types/select2": "^4.0",
     "@types/uuid": "^7.0 || ^8.0 || ^9.0.0",
