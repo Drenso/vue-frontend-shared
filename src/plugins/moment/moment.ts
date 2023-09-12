@@ -11,8 +11,8 @@ export function secondsToTimeComponents(
   value: number, enableHours: boolean = true, enableMinutes: boolean = true, enableSeconds: boolean = true): TimeComponent {
 
   const bigValue = Big(value);
-  const hours = !enableHours ? 0 : Number(bigValue.div(60 * 60).round(0, RoundingMode.RoundDown));
-  const minutes = !enableMinutes ? 0 : Number(bigValue.minus(hours * 60 * 60).div(60).round(0, RoundingMode.RoundDown));
+  const hours = !enableHours ? 0 : Number(bigValue.div(60 * 60).round(0, Big.roundDown));
+  const minutes = !enableMinutes ? 0 : Number(bigValue.minus(hours * 60 * 60).div(60).round(0, Big.roundDown));
   const seconds = !enableSeconds ? 0 : Number(bigValue.minus(hours * 60 * 60 + minutes * 60));
 
   return {
