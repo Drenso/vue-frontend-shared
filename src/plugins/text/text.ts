@@ -41,6 +41,11 @@ export function truncate(value: any, maxLength: number = 50): string {
   for (const word of valueArray) {
     valueWordCount += word.length;
     if (valueWordCount > maxLength) {
+      if (truncated === '') {
+        // Insert first characters of string that couldn't be split
+        return value.slice(0, maxLength) + '...';
+      }
+
       return truncated + '...';
     }
 
