@@ -2,25 +2,27 @@ import Messages, {MessageObject} from 'messageformat/messages';
 
 export type MissingTranslationKeyCallback = (key: string) => void;
 
-/**
- * The actual translator
- */
+/** The actual translator */
 export class Translator {
 
-  private readonly messages: Messages;
+  private messages!: Messages;
   private readonly missingKeyCallback?: MissingTranslationKeyCallback;
 
-  /**
-   * Constructor
-   */
   constructor(messages: MessageObject, missingKeyCallback?: MissingTranslationKeyCallback) {
-    // We only use the default locale for now
-    this.messages = new Messages({en: messages}, 'en');
     this.missingKeyCallback = missingKeyCallback;
+    this.setMessages(messages);
   }
 
   /**
-   * Creates the translated representation of the given key and it parameters.
+   * Sets the messages object. We only use the default locale (en) at this time.
+   * @param messages The new translation messages
+   */
+  public setMessages(messages: MessageObject): void {
+    this.messages = new Messages({en: messages}, 'en');
+  }
+
+  /**
+   * Creates the translated representation of the given key and its parameters.
    * Follows the ICU standard
    * @param key The translation key
    * @param params The translation params
