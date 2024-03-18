@@ -60,6 +60,7 @@
   "sideeffects": false,
   "files": [
     "dist",
+    "eslint",
     "readme.md"
   ]
 }
