@@ -7,17 +7,17 @@ stages:
 include:
   # Prepare
   - project: 'intern/runner-templates'
-    ref: "14.1"
+    ref: "15.0"
     file: '/yarn/install-js-dependencies.yml'
 
   # Lint
   - project: 'intern/runner-templates'
-    ref: "14.1"
+    ref: "15.0"
     file: '/ts/tslint.yml'
 
   # Build
   - project: 'intern/runner-templates'
-    ref: "14.1"
+    ref: "15.0"
     file: '/yarn/build-prod.yml'
 
 install-js-dependencies:
