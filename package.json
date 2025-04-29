@@ -41,7 +41,7 @@
     "@types/jquery": "^3.3",
     "@types/select2": "^4.0",
     "axios": ">=0.19 || ^1.0",
-    "big.js": "^6.2",
+    "big.js": "^6.2 || ^7.0",
     "bootstrap-vue": "^2.11",
     "jquery": "^3.5",
     "moment": "^2.29",
