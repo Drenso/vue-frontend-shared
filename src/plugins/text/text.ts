@@ -23,7 +23,7 @@ export function capitalize(value: any): string {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-export function truncate(value: any, maxLength: number = 50): string {
+export function truncate(value: any, maxLength: number = 50, truncationIndicator: string = '...'): string {
   if (typeof value !== 'string' || !value) {
     return '';
   }
@@ -43,15 +43,15 @@ export function truncate(value: any, maxLength: number = 50): string {
     if (valueWordCount > maxLength) {
       if (truncated === '') {
         // Insert first characters of string that couldn't be split
-        return value.slice(0, maxLength) + '...';
+        return value.slice(0, maxLength) + truncationIndicator;
       }
 
-      return truncated + '...';
+      return truncated + truncationIndicator;
     }
 
     truncated += ' ' + word;
     valueWordCount++;
   }
 
-  return truncated + '...';
+  return truncated + truncationIndicator;
 }
