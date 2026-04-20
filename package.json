@@ -12,10 +12,11 @@
   "scripts": {
     "clean": "rimraf ./dist",
     "tsc": "tsc",
-    "build": "yarn clean && yarn tsc",
-    "prepublishOnly": "yarn build"
+    "build": "run-s clean tsc",
+    "prepublishOnly": "run-s build"
   },
   "devDependencies": {
+    "npm-run-all2": "8.0.4",
     "rimraf": "^3.0",
     "tslint": "^6.1",
     "typescript": "^4.0"

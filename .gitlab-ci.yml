@@ -67,8 +67,8 @@ publish-pkg:
     - echo "username=${NPM_USER}" > .npmrc
     - echo "_password=$(echo -n ${NPM_PASS} | base64)" >> .npmrc
     - echo "email=${NPM_EMAIL}" >> .npmrc
-    - yarn version --new-version ${CI_COMMIT_TAG} --no-git-tag-version
-    - yarn publish
+    - npm version --new-version ${CI_COMMIT_TAG} --no-git-tag-version
+    - npm publish
   after_script:
     - rm .npmrc
   tags:
@@ -96,12 +96,11 @@ publish-pkg-npmjs:
     - echo "username=${NPMJS_USER}" >> .npmrc
     - echo "email=${NPMJS_EMAIL}" >> .npmrc
     - echo "//${NPMJS_REGISTRY}/:_authToken=${NPMJS_TOKEN}" >> .npmrc
-    - echo "registry \"https://${NPMJS_REGISTRY}\"" >> .yarnrc
-    - yarn version --new-version ${CI_COMMIT_TAG} --no-git-tag-version
-    - yarn publish --access public
+    - echo "registry \"https://${NPMJS_REGISTRY}\"" >> .npmrc
+    - npm version --new-version ${CI_COMMIT_TAG} --no-git-tag-version
+    - npm publish --access public
   after_script:
     - rm .npmrc
-    - git checkout .yarnrc
   tags:
     - docker
   rules:
