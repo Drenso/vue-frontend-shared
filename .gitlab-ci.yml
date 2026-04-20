@@ -67,8 +67,8 @@ publish-pkg:
     - echo "//${NPMJS_REGISTRY}/:username=${NPM_USER}" > .npmrc
     - echo "//${NPMJS_REGISTRY}/:_password=$(echo -n ${NPM_PASS} | base64)" >> .npmrc
     - echo "//${NPMJS_REGISTRY}/:email=${NPM_EMAIL}" >> .npmrc
-    - npm version --new-version ${CI_COMMIT_TAG} --no-git-tag-version
-    - npm publish
+    - npm version --no-git-tag-version ${CI_COMMIT_TAG}
+    - npm publish --registry ${NPMJS_REGISTRY}
   after_script:
     - rm .npmrc
   tags:
@@ -101,7 +101,7 @@ publish-pkg-npmjs:
     - echo "//${NPMJS_REGISTRY}/:username=${NPMJS_USER}" >> .npmrc
     - echo "//${NPMJS_REGISTRY}/:email=${NPMJS_EMAIL}" >> .npmrc
     - echo "//${NPMJS_REGISTRY}/:_authToken=${NPMJS_TOKEN}" >> .npmrc
-    - npm version --new-version ${CI_COMMIT_TAG} --no-git-tag-version
+    - npm version --no-git-tag-version ${CI_COMMIT_TAG}
     - npm publish --access public
   environment:
     name: NPMJS
