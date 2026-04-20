@@ -25,13 +25,13 @@ export function getFileNameFromResponse(response: AxiosResponse, defaultName?: s
 }
 
 /**
- * Get response type from the response object
+ * Get the response type from the response object
  * @param response
  */
 export function getResponseTypeFromResponse(response: AxiosResponse): string {
   const contentType = response.headers['content-type'];
   if (contentType) {
-    return contentType;
+    return contentType as string;
   }
 
   return 'octet/stream';
