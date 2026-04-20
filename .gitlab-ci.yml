@@ -8,7 +8,7 @@ include:
   # Prepare
   - project: 'intern/runner-templates'
     ref: "17.2"
-    file: '/yarn/install-js-dependencies.yml'
+    file: '/npm/install-js-dependencies.yml'
 
   # Lint
   - project: 'intern/runner-templates'
@@ -18,7 +18,7 @@ include:
   # Build
   - project: 'intern/runner-templates'
     ref: "17.2"
-    file: '/yarn/build-prod.yml'
+    file: '/npm/build-prod.yml'
 
 install-js-dependencies:
   except:
