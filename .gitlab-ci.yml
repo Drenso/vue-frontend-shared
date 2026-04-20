@@ -64,9 +64,9 @@ publish-pkg:
       - node_modules/
     policy: pull
   script:
-    - echo "username=${NPM_USER}" > .npmrc
-    - echo "_password=$(echo -n ${NPM_PASS} | base64)" >> .npmrc
-    - echo "email=${NPM_EMAIL}" >> .npmrc
+    - echo "//${NPMJS_REGISTRY}/:username=${NPM_USER}" > .npmrc
+    - echo "//${NPMJS_REGISTRY}/:_password=$(echo -n ${NPM_PASS} | base64)" >> .npmrc
+    - echo "//${NPMJS_REGISTRY}/:email=${NPM_EMAIL}" >> .npmrc
     - npm version --new-version ${CI_COMMIT_TAG} --no-git-tag-version
     - npm publish
   after_script:
@@ -96,10 +96,11 @@ publish-pkg-npmjs:
       - node_modules/
     policy: pull
   script:
-    - echo "username=${NPMJS_USER}" >> .npmrc
-    - echo "email=${NPMJS_EMAIL}" >> .npmrc
-    - echo "//${NPMJS_REGISTRY}/:_authToken=${NPMJS_TOKEN}" >> .npmrc
+    - rm .npmrc
     - echo "registry \"https://${NPMJS_REGISTRY}\"" >> .npmrc
+    - echo "//${NPMJS_REGISTRY}/:username=${NPMJS_USER}" >> .npmrc
+    - echo "//${NPMJS_REGISTRY}/:email=${NPMJS_EMAIL}" >> .npmrc
+    - echo "//${NPMJS_REGISTRY}/:_authToken=${NPMJS_TOKEN}" >> .npmrc
     - npm version --new-version ${CI_COMMIT_TAG} --no-git-tag-version
     - npm publish --access public
   environment:
