@@ -28,7 +28,7 @@ install-js-dependencies:
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: never
-    - if: $CI_COMMIT_REF_NAME == "master"
+    - if: $CI_COMMIT_REF_NAME == "main"
       when: never
     - when: on_success
 
@@ -36,7 +36,7 @@ ts-analysis:
   except:
     - schedules
     - tags
-    - master
+    - main
 
 build-assets:
   needs:
@@ -47,7 +47,7 @@ build-assets:
   except:
     - schedules
     - tags
-    - master
+    - main
 
 publish-pkg:
   stage: publish
