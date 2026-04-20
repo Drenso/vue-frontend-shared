@@ -4,6 +4,10 @@ stages:
   - build
   - publish
 
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "merge_request_event"
+
 include:
   # Prepare
   - project: 'intern/runner-templates'
@@ -21,9 +25,12 @@ include:
     file: '/npm/build-prod.yml'
 
 install-js-dependencies:
-  except:
-    - schedules
-    - master
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - if: $CI_COMMIT_REF_NAME == "master"
+      when: never
+    - when: on_success
 
 ts-analysis:
   except:
@@ -44,15 +51,15 @@ build-assets:
 
 publish-pkg:
   stage: publish
-  image: node:20-alpine
+  image: node:24-alpine
   resource_group: $CI_JOB_NAME
   needs:
     - install-js-dependencies
   cache:
     key:
       files:
-        - yarn.lock
-      prefix: ${CI_PROJECT_PATH_SLUG}_yarn
+        - package-lock.json
+      prefix: ${CI_PROJECT_PATH_SLUG}_npm
     paths:
       - node_modules/
     policy: pull
@@ -60,34 +67,34 @@ publish-pkg:
     - echo "username=${NPM_USER}" > .npmrc
     - echo "_password=$(echo -n ${NPM_PASS} | base64)" >> .npmrc
     - echo "email=${NPM_EMAIL}" >> .npmrc
-    - echo "always-auth=true" >> .npmrc
     - yarn version --new-version ${CI_COMMIT_TAG} --no-git-tag-version
     - yarn publish
   after_script:
     - rm .npmrc
   tags:
     - docker
-  only:
-    - tags
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: on_success
+    - when: never
 
 publish-pkg-npmjs:
   stage: publish
-  image: node:20-alpine
+  image: node:24-alpine
   resource_group: ${CI_JOB_NAME}_npmjs
   needs:
     - install-js-dependencies
   cache:
     key:
       files:
-        - yarn.lock
-      prefix: ${CI_PROJECT_PATH_SLUG}_yarn
+        - package-lock.json
+      prefix: ${CI_PROJECT_PATH_SLUG}_npm
     paths:
       - node_modules/
     policy: pull
   script:
     - echo "username=${NPMJS_USER}" >> .npmrc
     - echo "email=${NPMJS_EMAIL}" >> .npmrc
-    - echo "always-auth=true" >> .npmrc
     - echo "//${NPMJS_REGISTRY}/:_authToken=${NPMJS_TOKEN}" >> .npmrc
     - echo "registry \"https://${NPMJS_REGISTRY}\"" >> .yarnrc
     - yarn version --new-version ${CI_COMMIT_TAG} --no-git-tag-version
@@ -97,5 +104,7 @@ publish-pkg-npmjs:
     - git checkout .yarnrc
   tags:
     - docker
-  only:
-    - tags
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: on_success
+    - when: never
