@@ -11,17 +11,17 @@ workflow:
 include:
   # Prepare
   - project: 'intern/runner-templates'
-    ref: "17.2"
+    ref: "17.3"
     file: '/npm/install-js-dependencies.yml'
 
   # Lint
   - project: 'intern/runner-templates'
-    ref: "17.2"
+    ref: "17.3"
     file: '/ts/tslint.yml'
 
   # Build
   - project: 'intern/runner-templates'
-    ref: "17.2"
+    ref: "17.3"
     file: '/npm/build-prod.yml'
 
 install-js-dependencies:
