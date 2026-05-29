@@ -22,7 +22,7 @@
     "typescript": "^5.9"
   },
   "peerDependencies": {
-    "@types/big.js": "^6.2",
+    "@types/big.js": "^6.2 || ^7.0",
     "@types/jquery": "^3.3",
     "@types/select2": "^4.0",
     "axios": ">=0.19 || ^1.0",
